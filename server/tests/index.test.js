@@ -8,7 +8,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 chai.use(chaiHttp);
 const fixtures = new Fixtures({
-	dir: 'server/test/fixtures',
+	dir: 'server/tests/fixtures',
 	mute: true
 });
 
