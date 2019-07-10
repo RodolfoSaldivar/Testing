@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = mongoose.model('users');
 
@@ -32,24 +32,31 @@ passport.deserializeUser(async (userId, done) => {
 //================================================
 
 passport.use(
-   new LocalStrategy(async (username, password, done) => {
-      try {
-         let user = await User.find({
-            username
-         });
-         user = user[0];
+   new LocalStrategy(
+      {
+         usernameField: 'mail',
+         passwordField: 'password'
+      },
+      async (mail, password, done) => {
+         try {
+            let user = await User.find({ mail });
+            user = user[0];
 
-         if (!user)
-            return done(null, false, { message: 'User does not exist.' });
+            if (!user)
+               return done(null, false, { message: 'User does not exist.' });
 
-         const correctPassword = await bcrypt.compare(password, user.password);
+            const correctPassword = await bcrypt.compare(
+               password,
+               user.password
+            );
 
-         if (!correctPassword)
-            return done(null, false, { message: 'Incorrect password.' });
+            if (!correctPassword)
+               return done(null, false, { message: 'Incorrect password.' });
 
-         done(null, user);
-      } catch (err) {
-         console.log('LocalStrategy: ', err.message);
+            done(null, user);
+         } catch (err) {
+            console.log('LocalStrategy: ', err.message);
+         }
       }
-   })
+   )
 );

@@ -1,4 +1,42 @@
+const mongoose = require('mongoose');
 const { body, param } = require('express-validator');
+
+const User = mongoose.model('users');
+
+//================================================
+
+module.exports.uniqueMail = async (req, res, next) => {
+	try {
+		const user = await User.find({
+			mail: req.body.mail
+		});
+		if (user[0])
+			return res.status(400).send({ message: 'Mail already registered.' });
+	} catch (err) {
+		console.log('Unique Mail: ', err.message);
+		return res.status(500).send({ message: 'Server Error.' });
+	}
+	next();
+};
+
+//================================================
+
+module.exports.sameMail = async (req, res, next) => {
+	try {
+		const user = await User.find({
+			mail: req.body.mail
+		});
+		// Mail not used
+		if (!user.length) return next();
+		// Mail used by the same person
+		if (user[0]._id.equals(req.params.id)) return next();
+		// Mail used by other person
+		return res.status(400).send({ message: 'Mail already registered.' });
+	} catch (err) {
+		console.log('Unique Mail: ', err.message);
+		return res.status(500).send({ message: 'Server Error.' });
+	}
+};
 
 //================================================
 
@@ -43,8 +81,8 @@ module.exports.save = [
 		.exists()
 		.withMessage('Mail is missing.'),
 	body('mail')
-		.isString()
-		.withMessage('Mail must be a string.'),
+		.isEmail()
+		.withMessage('Mail must be valid.'),
 	body('age')
 		.not()
 		.isString()

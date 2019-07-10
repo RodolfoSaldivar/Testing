@@ -1,9 +1,9 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const passport = require('passport');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const { COOKIE_KEY, MONGO_URL } = require('./config/keys');
-const mongoose = require('mongoose');
 
 const app = express();
 

@@ -1,6 +1,9 @@
 const passport = require('passport');
 
 module.exports = (app) => {
+	//================================================
+	//----> Login
+
 	app.post('/api/login', (req, res, next) => {
 		passport.authenticate('local', (err, user, info) => {
 			if (err) return next(err);
@@ -14,9 +17,10 @@ module.exports = (app) => {
 	});
 
 	//================================================
+	//----> Logout
 
 	app.get('/api/logout', (req, res) => {
 		req.logout();
-		res.send({ message: 'Logged Out' });
+		res.send({ message: 'Logged Out.' });
 	});
 };

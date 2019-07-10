@@ -12,15 +12,18 @@ module.exports = (app) => {
 	//================================================
 	//----> Get all
 
-	app.get('/api/users', auth.isLoggedIn, async (req, res) => {
-		try {
-			const response = await User.find();
-			res.send({ data: response });
-		} catch (error) {
-			console.log('error: ', error.message);
-			res.status(500).send({ message: 'Server Error' });
+	app.get(
+		'/api/users',
+		/*auth.isLoggedIn,*/ async (req, res) => {
+			try {
+				const response = await User.find();
+				res.send({ data: response });
+			} catch (error) {
+				console.log('error: ', error.message);
+				res.status(500).send({ message: 'Server Error.' });
+			}
 		}
-	});
+	);
 
 	//================================================
 	//----> Get by ID
@@ -38,26 +41,26 @@ module.exports = (app) => {
 				res.send({ data: response });
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
 
 	//================================================
-	//----> Get by username
+	//----> Get by mail
 
 	app.get(
-		'/api/users/username/:username',
+		'/api/users/mail/:mail',
 		/*auth.isLoggedIn,*/
 		async (req, res) => {
 			try {
 				const response = await User.find({
-					username: req.params.username
+					mail: req.params.mail
 				});
 				res.send({ data: response });
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
@@ -75,7 +78,7 @@ module.exports = (app) => {
 				res.send({ data: response });
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
@@ -87,6 +90,7 @@ module.exports = (app) => {
 		'/api/users',
 		usersValidator.save,
 		sendValidationErrors,
+		usersValidator.uniqueMail,
 		async (req, res) => {
 			const { password } = req.body;
 			try {
@@ -100,7 +104,7 @@ module.exports = (app) => {
 				res.send(response);
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
@@ -114,29 +118,31 @@ module.exports = (app) => {
 		usersValidator.mongoId,
 		usersValidator.save,
 		sendValidationErrors,
+		usersValidator.sameMail,
 		async (req, res) => {
+			const { password } = req.body;
 			try {
-				//================================================
-				//================================================
-				//----> Falta el bycrypt
-				//================================================
-				//================================================
+				const hash = await bcrypt.hash(password, 10);
+				const body = {
+					...req.body,
+					password: hash
+				};
 				const response = await User.findOneAndUpdate(
 					{ _id: req.params.id },
-					req.body,
+					body,
 					{ new: true }
 				).exec();
 
 				if (!response) {
 					return res.status(404).send({
-						errors: [{ msg: 'User not found' }]
+						message: 'User not found.'
 					});
 				}
 
 				res.send(response);
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
@@ -157,14 +163,14 @@ module.exports = (app) => {
 
 				if (!response.deletedCount) {
 					return res.status(404).send({
-						errors: [{ msg: 'User not found' }]
+						message: 'User not found.'
 					});
 				}
 
 				res.send({ message: 'Deleted successfully.' });
 			} catch (error) {
 				console.log('error: ', error.message);
-				res.status(500).send({ message: 'Server Error' });
+				res.status(500).send({ message: 'Server Error.' });
 			}
 		}
 	);
