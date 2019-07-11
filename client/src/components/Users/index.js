@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
-// import Typography from '@material-ui/core/Typography';
 import Table from '../Table';
 import * as usersActions from '../../actions/usersActions';
 
@@ -8,7 +8,7 @@ const Users = (props) => {
 	useEffect(() => {
 		if (props.loading) return;
 		if (props.error) return;
-		if (!props.users.length) {
+		if (_.isEmpty(props.users)) {
 			props.getAll();
 		}
 	}, [props]);
@@ -30,9 +30,7 @@ const Users = (props) => {
 	);
 };
 
-const mapStateToProps = (reducers) => {
-	return reducers.usersReducer;
-};
+const mapStateToProps = ({ usersReducer }) => usersReducer;
 
 export default connect(
 	mapStateToProps,

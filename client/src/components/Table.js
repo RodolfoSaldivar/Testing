@@ -1,4 +1,32 @@
+//================================================
+//================================================
+// Receives 3 parameters from parent:
+// title = String
+// headRows = Array
+// rows = Object / Array
+//================================================
+// title='Users'
+// headRows = [
+//    { id: 'name', label: 'Name', align: 'left' },
+//    { id: 'mail', label: 'Mail', align: 'center' },
+//    { id: 'age', label: 'Age', align: 'right' }
+// ];
+// rows = {
+//    id1: { name: 'Name', mail: 'mail@mail.com', age: 10 },
+//    id2: { name: 'Other', mail: 'other@other.com', age: 20 },
+//    id3: { name: 'One', mail: 'one@one.com', age: 30 }
+// };
+// OR
+// rows = [
+//    { name: 'Name', mail: 'mail@mail.com', age: 10 },
+//    { name: 'Other', mail: 'other@other.com', age: 20 },
+//    { name: 'One', mail: 'one@one.com', age: 30 }
+// ];
+//================================================
+//================================================
+
 import React, { useState } from 'react';
+import _ from 'lodash';
 import { makeStyles } from '@material-ui/core/styles';
 import {
    Paper,
@@ -14,28 +42,6 @@ import {
 
 //================================================
 
-const stableSort = (array, order, orderBy) => {
-   const sort_func = getSortFunct(order, orderBy);
-   return array.sort(sort_func);
-};
-
-const getSortFunct = (order, orderBy) => {
-   if (order === 'asc') {
-      return (a, b) => asc(a, b, orderBy);
-   }
-   return (a, b) => -asc(a, b, orderBy);
-};
-
-const asc = (a, b, orderBy) => {
-   if (typeof a[orderBy] === 'string') {
-      const smaller = a[orderBy].toLowerCase() <= b[orderBy].toLowerCase();
-      return smaller ? -1 : 1;
-   }
-   return a[orderBy] - b[orderBy];
-};
-
-//================================================
-
 const useStyles = makeStyles((theme) => ({
    tableWrapper: {
       overflowX: 'auto'
@@ -47,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const SharedTable = (props) => {
    const classes = useStyles();
    const [order, setOrder] = useState('asc');
-   const [orderBy, setOrderBy] = useState('calories');
+   const [orderBy, setOrderBy] = useState();
 
    function handleRequestSort(property) {
       // Toggle if same, asc first for others
@@ -86,7 +92,7 @@ const SharedTable = (props) => {
                      </TableRow>
                   </TableHead>
                   <TableBody>
-                     {stableSort(props.rows, order, orderBy).map(
+                     {_.orderBy(props.rows, [orderBy], [order]).map(
                         (row, index) => {
                            return (
                               <TableRow key={index}>

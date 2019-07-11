@@ -11,7 +11,7 @@ module.exports = (app) => {
 
 			req.logIn(user, (err) => {
 				if (err) return next(err);
-				return res.send({ data: user });
+				return res.send(user);
 			});
 		})(req, res, next);
 	});

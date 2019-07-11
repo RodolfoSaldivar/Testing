@@ -7,25 +7,19 @@ const User = mongoose.model('users');
 
 module.exports.uniqueMail = async (req, res, next) => {
 	try {
-		const user = await User.find({
-			mail: req.body.mail
-		});
-		if (user[0])
-			return res.status(400).send({ message: 'Mail already registered.' });
+		const user = await User.getByMail(req.body.mail);
+		if (!user.length) return next();
+		return res.status(400).send({ message: 'Mail already registered.' });
 	} catch (err) {
-		console.log('Unique Mail: ', err.message);
-		return res.status(500).send({ message: 'Server Error.' });
+		return User.logError(res, 'uniqueMail', err.message);
 	}
-	next();
 };
 
 //================================================
 
 module.exports.sameMail = async (req, res, next) => {
 	try {
-		const user = await User.find({
-			mail: req.body.mail
-		});
+		const user = await User.getByMail(req.body.mail);
 		// Mail not used
 		if (!user.length) return next();
 		// Mail used by the same person
@@ -33,8 +27,7 @@ module.exports.sameMail = async (req, res, next) => {
 		// Mail used by other person
 		return res.status(400).send({ message: 'Mail already registered.' });
 	} catch (err) {
-		console.log('Unique Mail: ', err.message);
-		return res.status(500).send({ message: 'Server Error.' });
+		return User.logError(res, 'sameMail', err.message);
 	}
 };
 

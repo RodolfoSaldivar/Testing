@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { normalize } from 'normalizr';
+import * as schema from './schema';
 import { GET_ALL, LOADING, ERROR } from '../types/usersTypes';
 
 export const getAll = () => async (dispatch) => {
@@ -10,7 +12,7 @@ export const getAll = () => async (dispatch) => {
 		const res = await axios.get('/api/users');
 		dispatch({
 			type: GET_ALL,
-			payload: res.data.data
+			payload: normalize(res.data, schema.userArray)
 		});
 	} catch (err) {
 		console.log('Users getAll: ', err.message);

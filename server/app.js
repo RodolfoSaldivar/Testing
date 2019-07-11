@@ -7,6 +7,9 @@ const { COOKIE_KEY, MONGO_URL } = require('./config/keys');
 
 const app = express();
 
+//================================================
+//----> Middlewares
+
 app.use(bodyParser.json());
 app.use(
 	cookieSession({
@@ -18,8 +21,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//================================================
+//----> Models and services
+
 require('./models/Users');
 require('./lib/passportService');
+
+//================================================
+//----> Routes
+
+require('./routes/authRoutes')(app);
+require('./routes/usersRoutes')(app);
+
+//================================================
+//----> Configuration
 
 if (app.settings.env === 'development') {
 	mongoose.connect(MONGO_URL, {
@@ -27,13 +42,6 @@ if (app.settings.env === 'development') {
 		useFindAndModify: false
 	});
 }
-
-require('./routes/authRoutes')(app);
-require('./routes/usersRoutes')(app);
-
-app.get('/', (req, res) => {
-	res.send({ message: 'Landing Page' });
-});
 
 app.listen(process.env.PORT || 5000);
 

@@ -1,7 +1,8 @@
 import { GET_ALL, LOADING, ERROR } from '../types/usersTypes';
 
 const INITIAL_STATE = {
-	users: [],
+	users: {},
+	users_id: [],
 	loading: false,
 	error: ''
 };
@@ -11,7 +12,8 @@ export default (state = INITIAL_STATE, action) => {
 		case GET_ALL:
 			return {
 				...state,
-				users: action.payload,
+				users: action.payload.entities.users,
+				users_id: action.payload.result,
 				loading: false,
 				error: ''
 			};

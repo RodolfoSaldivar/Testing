@@ -15,9 +15,8 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (userId, done) => {
    try {
-      const user = await User.find({
-         _id: userId
-      });
+      const user = await User.getById(userId);
+
       if (!user[0]) {
          console.log('deserializeUser: User does not exist.');
          return done(null, false);
@@ -39,7 +38,7 @@ passport.use(
       },
       async (mail, password, done) => {
          try {
-            let user = await User.find({ mail });
+            let user = await User.getByMail(mail);
             user = user[0];
 
             if (!user)
