@@ -7,6 +7,19 @@ const { COOKIE_KEY, MONGO_URL } = require('./config/keys');
 
 const app = express();
 
+// const cron = require('node-cron');
+// cron.schedule('* * * * * *', function() {
+// 	// 			* * * * * *
+// 	// 			| | | | | |
+// 	// 			| | | | | day of week
+// 	// 			| | | | month
+// 	// 			| | | day of month
+// 	// 			| | hour
+// 	// 			| minute
+// 	// 			second ( optional )
+// 	console.log('running a task every second');
+// });
+
 //================================================
 //----> Middlewares
 
