@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const {
@@ -17,6 +18,23 @@ module.exports = (app) => {
 		/*auth.isLoggedIn,*/ async (req, res) => {
 			try {
 				res.send(await User.getAll());
+			} catch (err) {
+				User.logError(res, 'getAll', err.message);
+			}
+		}
+	);
+
+	//================================================
+	//----> Get by groups
+
+	app.get(
+		'/api/users/groups',
+		/*auth.isLoggedIn,*/ async (req, res) => {
+			try {
+				let { group_id } = req.query;
+				if (!_.isArray(group_id)) group_id = [group_id];
+
+				res.send(await User.getByGroups(group_id));
 			} catch (err) {
 				User.logError(res, 'getAll', err.message);
 			}

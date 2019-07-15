@@ -10,9 +10,19 @@ const userSchema = new Schema({
 	age: Number
 });
 
+//----> get all
 userSchema.statics.getAll = function() {
 	return this.find();
 };
+
+//----> group_id = [ 'string_id', 'string_id' ]
+userSchema.statics.getByGroups = function(group_id) {
+	return this.find({
+		groups: { $in: group_id }
+	});
+};
+
+//================================================
 
 userSchema.statics.getById = function(_id) {
 	return this.find({ _id });

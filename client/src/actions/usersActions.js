@@ -22,3 +22,10 @@ export const getAll = () => async (dispatch) => {
 		});
 	}
 };
+
+export const changeInputFields = (action, value) => (dispatch) => {
+	dispatch({
+		type: action,
+		payload: value
+	});
+};

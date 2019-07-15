@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -33,6 +34,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/api/images', express.static(path.join(__dirname, '/public/images')));
 
 //================================================
 //----> Models and services
@@ -45,6 +47,7 @@ require('./lib/passportService');
 
 require('./routes/authRoutes')(app);
 require('./routes/usersRoutes')(app);
+require('./routes/groupsRoutes')(app);
 
 //================================================
 //----> Configuration

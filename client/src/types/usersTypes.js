@@ -1,3 +1,9 @@
 export const ERROR = 'users_error';
 export const GET_ALL = 'users_get_all';
 export const LOADING = 'users_loading';
+export const FORM_NAME = 'users_form_name';
+export const FORM_MAIL = 'users_form_mail';
+export const FORM_IMAGE = 'users_form_image';
+export const FORM_GROUPS = 'users_form_groups';
+export const FORM_LASTNAME = 'users_form_lastname';
+export const FORM_PASSWORD = 'users_form_password';
