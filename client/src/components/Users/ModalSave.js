@@ -16,18 +16,10 @@ import UserAndGroupForms from './UserAndGroupForms';
 //================================================
 
 const useStyles = makeStyles((theme) => ({
+	dialogHeight: theme.dialogHeight,
+	modalCloseButton: theme.modalCloseButton,
 	dialogContent: { padding: theme.spacing(4) },
-	marginRight: { marginRight: theme.spacing(5) },
-	dialog: {
-		maxHeight: 'calc(100% - 30px)',
-		margin: 15
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
+	marginRight: { marginRight: theme.spacing(5) }
 }));
 
 //================================================
@@ -51,7 +43,7 @@ const ModalSave = (props) => {
 				open={open}
 				maxWidth="sm"
 				onClose={handleClose}
-				PaperProps={{ className: classes.dialog }}
+				PaperProps={{ className: classes.dialogHeight }}
 			>
 				{/*//================================================*/}
 
@@ -59,7 +51,7 @@ const ModalSave = (props) => {
 					<Typography variant="h6">Save User</Typography>
 					<IconButton
 						aria-label="Close"
-						className={classes.closeButton}
+						className={classes.modalCloseButton}
 						onClick={handleClose}
 					>
 						<CloseIcon />

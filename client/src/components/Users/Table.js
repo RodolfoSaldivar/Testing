@@ -10,7 +10,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 //================================================
 
-const SharedTable = (props) => {
+const UsersTable = (props) => {
    const [order, setOrder] = useState('asc');
    const [orderBy, setOrderBy] = useState();
 
@@ -62,7 +62,7 @@ const SharedTable = (props) => {
    );
 };
 
-export default SharedTable;
+export default UsersTable;
 
 //================================================
 // Receives 2 parameters from parent:
