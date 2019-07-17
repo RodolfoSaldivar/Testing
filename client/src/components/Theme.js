@@ -12,9 +12,10 @@ const appTheme = (theme) =>
 		width100: {
 			width: '100%'
 		},
-		dialogHeight: {
-			maxHeight: 'calc(100% - 30px)',
-			margin: 15
+		dialogModal: {
+			margin: 15,
+			width: 'calc(100% - 30px)',
+			maxHeight: 'calc(100% - 30px)'
 		},
 		modalCloseButton: {
 			position: 'absolute',

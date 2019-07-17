@@ -16,7 +16,7 @@ import UserAndGroupForms from './UserAndGroupForms';
 //================================================
 
 const useStyles = makeStyles((theme) => ({
-	dialogHeight: theme.dialogHeight,
+	dialogModal: theme.dialogModal,
 	modalCloseButton: theme.modalCloseButton,
 	dialogContent: { padding: theme.spacing(4) },
 	marginRight: { marginRight: theme.spacing(5) }
@@ -43,7 +43,7 @@ const ModalSave = (props) => {
 				open={open}
 				maxWidth="sm"
 				onClose={handleClose}
-				PaperProps={{ className: classes.dialogHeight }}
+				PaperProps={{ className: classes.dialogModal }}
 			>
 				{/*//================================================*/}
 

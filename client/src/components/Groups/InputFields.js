@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField';
 import AttachFile from '@material-ui/icons/AttachFile';
 
 import * as types from '../../types/groupsTypes';
-import ScheduleInputFields from '../Schedules/InputFields';
 import * as groupsActions from '../../actions/groupsActions';
 
 //================================================
@@ -91,12 +90,6 @@ const InputFields = (props) => {
 					value={save_form.name}
 					onChange={inputsChange(types.FORM_NAME)}
 				/>
-			</Grid>
-
-			{/*//================================================*/}
-
-			<Grid item xs={12}>
-				<ScheduleInputFields />
 			</Grid>
 		</Grid>
 	);

@@ -9,10 +9,11 @@ import Typography from '@material-ui/core/Typography';
 
 import UserInputFields from './InputFields';
 import GroupInputFields from '../Groups/InputFields';
+import ScheduleInputFields from '../Schedules/InputFields';
 
 import * as groupsActions from '../../actions/groupsActions';
 
-const { create: createGroup } = groupsActions;
+const { createWithSchedule: createGroupWithSchedule } = groupsActions;
 
 //================================================
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 //================================================
 
 const Form = (props) => {
-	const { setIsDisabled, createGroup } = props;
+	const { setIsDisabled, createGroupWithSchedule } = props;
 	const [groupFormOpen, setGroupFormOpen] = useState(true);
 	const classes = useStyles();
 
@@ -58,6 +59,14 @@ const Form = (props) => {
 
 					<Grid item xs={12}>
 						<GroupInputFields />
+					</Grid>
+
+					<Grid item xs={12}>
+						<Typography variant="h6">Default Schedule</Typography>
+					</Grid>
+
+					<Grid item xs={12}>
+						<ScheduleInputFields />
 						<br />
 					</Grid>
 
@@ -66,7 +75,7 @@ const Form = (props) => {
 							variant="contained"
 							color="secondary"
 							className={classes.marginRight}
-							onClick={() => createGroup()}
+							onClick={() => createGroupWithSchedule()}
 						>
 							Save Group
 						</Button>
@@ -82,5 +91,5 @@ const Form = (props) => {
 
 export default connect(
 	() => ({}),
-	{ createGroup }
+	{ createGroupWithSchedule }
 )(Form);

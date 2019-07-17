@@ -5,6 +5,7 @@ const INITIAL_STATE = {
 	groups_id: [],
 	save_form: {
 		name: '',
+		missing: false,
 		img_preview: '',
 		image: { name: '' }
 	},

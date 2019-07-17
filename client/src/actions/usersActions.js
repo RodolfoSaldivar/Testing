@@ -3,6 +3,8 @@ import { normalize } from 'normalizr';
 import * as schema from './schema';
 import { GET_ALL, LOADING, ERROR } from '../types/usersTypes';
 
+//================================================
+
 export const getAll = () => async (dispatch) => {
 	dispatch({
 		type: LOADING
@@ -22,6 +24,8 @@ export const getAll = () => async (dispatch) => {
 		});
 	}
 };
+
+//================================================
 
 export const changeInputFields = (action, value) => (dispatch) => {
 	dispatch({
